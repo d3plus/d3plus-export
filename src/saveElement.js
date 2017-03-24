@@ -2,7 +2,7 @@ import "canvas-toBlob";
 import canvg from "canvg-browser";
 import {select, selectAll} from "d3-selection";
 import {saveAs} from "file-saver";
-import {default as JsPDF} from "jspdf";
+// import {default as JsPDF} from "jspdf";
 
 const defaultOptions = {
   callback: () => {},
@@ -299,46 +299,46 @@ export default function(elem, options) {
 
     }
 
-    if (options.type === "pdf") {
-
-      const outputHeight = 11,
-            outputUnit = "in",
-            outputWidth = 8.5;
-
-      const aspect = canvas.width / canvas.height,
-            orientation = aspect > 1 ? "landscape" : "portrait";
-
-      const pdf = new JsPDF(orientation, outputUnit, [outputWidth, outputHeight]);
-
-      let h = orientation === "landscape" ? outputWidth : outputHeight,
-          left,
-          top,
-          w = orientation === "landscape" ? outputHeight : outputWidth;
-
-      const margin = 0.5;
-
-      if (aspect < w / h) {
-        h -= margin * 2;
-        const tempWidth = h * aspect;
-        top = margin;
-        left = (w - tempWidth) / 2;
-        w = tempWidth;
-      }
-      else {
-        w -= margin * 2;
-        const tempHeight = w / aspect;
-        left = margin;
-        top = (h - tempHeight) / 2;
-        h = tempHeight;
-      }
-
-      pdf.addImage(canvas, "canvas", left, top, w, h);
-      pdf.save(options.filename);
-
-    }
-    else if (["jpg", "png"].includes(options.type)) {
+    if (["jpg", "png"].includes(options.type)) {
       canvas.toBlob(blob => saveAs(blob, options.filename));
     }
+    // else if (options.type === "pdf") {
+    //
+    //   const outputHeight = 11,
+    //         outputUnit = "in",
+    //         outputWidth = 8.5;
+    //
+    //   const aspect = canvas.width / canvas.height,
+    //         orientation = aspect > 1 ? "landscape" : "portrait";
+    //
+    //   const pdf = new JsPDF(orientation, outputUnit, [outputWidth, outputHeight]);
+    //
+    //   let h = orientation === "landscape" ? outputWidth : outputHeight,
+    //       left,
+    //       top,
+    //       w = orientation === "landscape" ? outputHeight : outputWidth;
+    //
+    //   const margin = 0.5;
+    //
+    //   if (aspect < w / h) {
+    //     h -= margin * 2;
+    //     const tempWidth = h * aspect;
+    //     top = margin;
+    //     left = (w - tempWidth) / 2;
+    //     w = tempWidth;
+    //   }
+    //   else {
+    //     w -= margin * 2;
+    //     const tempHeight = w / aspect;
+    //     left = margin;
+    //     top = (h - tempHeight) / 2;
+    //     h = tempHeight;
+    //   }
+    //
+    //   pdf.addImage(canvas, "canvas", left, top, w, h);
+    //   pdf.save(options.filename);
+    //
+    // }
 
     options.callback(canvas);
 
