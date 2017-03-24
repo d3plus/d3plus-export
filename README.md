@@ -35,4 +35,4 @@ Downloads an HTML Element as a bitmap PNG image.
 
 
 
-###### <sub>Documentation generated on Fri, 24 Mar 2017 19:50:11 GMT</sub>
+###### <sub>Documentation generated on Fri, 24 Mar 2017 22:20:01 GMT</sub>
