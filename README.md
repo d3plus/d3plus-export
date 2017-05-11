@@ -1,38 +1,68 @@
 # d3plus-export
 
-[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export)
-[![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export)
-[![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export)
-[![Slack](https://img.shields.io/badge/Slack-Click%20to%20Join!-green.svg?style=social)](https://goo.gl/forms/ynrKdvusekAwRMPf2)
+[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export) [![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat)](https://gitter.im/d3plus/)
 
 Export methods for transforming and downloading SVG.
 
 ## Installing
 
-If you use NPM, `npm install d3plus-export`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-export/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a [custom bundle using Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3plus.org](https://d3plus.org):
+If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-export/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-export.v0.1.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-export.v0.2.full.min.js"></script>
 ```
 
 
 ## API Reference
-<a name="savePNG"></a>
 
-### savePNG(elem, [options])
-Downloads an HTML Element as a bitmap PNG image.
+##### Functions
+* [dom2canvas](#dom2canvas) - Renders HTML/SVG elements to a shared canvas.
+* [saveElement](#saveElement) - Downloads an HTML Element as a bitmap PNG image.
 
-**Kind**: global function  
+---
+
+<a name="dom2canvas"></a>
+#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L20)
+
+Renders HTML/SVG elements to a shared canvas.
+
+
+This is a global function.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| elem | <code>HTMLElement</code> |  | The element to be saved. |
-| [options] | <code>String</code> |  | Additional options to specify. |
+| elem | <code>HTMLElement</code> \| <code>Object</code> \| <code>Array</code> |  | The element or array of elements to be rendered to a single canvas. Additionally, a complex object can be passed as an element which can contain specific other properties. |
+| [elem.x] | <code>Number</code> |  | The x offset of the element within the rendered canvas. |
+| [elem.y] | <code>Number</code> |  | The y offset of the element within the rendered canvas. |
+| [options] | <code>Object</code> |  | Additional options to specify. |
+| [options.background] | <code>String</code> |  | Background color of the rendered canvas. |
 | [options.callback] | <code>function</code> |  | Callback function to be passed the canvas element after rendering. |
-| [options.filename] | <code>String</code> | <code>&quot;download&quot;</code> | Filename for the downloaded file, without the extension. |
+| [options.excludes] | <code>Array</code> |  | An array of HTMLElement objects to be excluded from the render. |
+| [options.height] | <code>Number</code> |  | Pixel height for the final output. If a height value has not been passed, it will be inferred from the sizing of the first DOM element passed. |
 | [options.padding] | <code>Number</code> | <code>0</code> | Outer padding for the final file. |
 | [options.scale] | <code>Number</code> | <code>1</code> | Scale for the final file. |
+| [options.width] | <code>Number</code> |  | Pixel width for the final output. If a width value has not been passed, it will be inferred from the sizing of the first DOM element passed. |
+
+---
+
+<a name="saveElement"></a>
+#### d3plus.**saveElement**(elem, [options], [renderOptions]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/saveElement.js#L12)
+
+Downloads an HTML Element as a bitmap PNG image.
 
 
+This is a global function.
 
-###### <sub>Documentation generated on Fri, 24 Mar 2017 22:20:01 GMT</sub>
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| elem | <code>HTMLElement</code> \| <code>Array</code> |  | A single element or array of elements to be saved to one file. |
+| [options] | <code>Object</code> |  | Additional options to specify. |
+| [options.filename] | <code>String</code> | <code>&quot;download&quot;</code> | Filename for the downloaded file, without the extension. |
+| [options.type] | <code>String</code> | <code>&quot;png&quot;</code> | File type of the saved document. Accepted values are `"png"` and `"jpg"`. |
+| [renderOptions] | <code>Object</code> |  | Custom options to be passed to the dom2canvas function. |
+
+---
+
+###### <sub>Documentation generated on Thu, 11 May 2017 18:35:17 GMT</sub>
