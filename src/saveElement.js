@@ -12,7 +12,7 @@ const defaultOptions = {
 /**
     @function saveElement
     @desc Downloads an HTML Element as a bitmap PNG image.
-    @param {HTMLElement} elem The element to be saved.
+    @param {HTMLElement|Array} elem A single element or array of elements to be saved to one file.
     @param {Object} [options] Additional options to specify.
     @param {String} [options.filename = "download"] Filename for the downloaded file, without the extension.
     @param {String} [options.type = "png"] File type of the saved document. Accepted values are `"png"` and `"jpg"`.
@@ -24,7 +24,7 @@ export default function(elem, options = {}, renderOptions = {}) {
   options = Object.assign({}, defaultOptions, options);
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
 
-  if (options.type === "svg") {
+  if (!(elem instanceof Array) && options.type === "svg") {
     const outer = IE ? (new XMLSerializer()).serializeToString(elem) : elem.outerHTML;
     saveAs(new Blob([outer], {type: "application/svg+xml"}), `${options.filename}.svg`);
   }
