@@ -1,4 +1,5 @@
 import "canvas-toBlob";
+import html2canvas from "html2canvas";
 import canvg from "canvg-browser";
 import {select, selectAll} from "d3-selection";
 import {saveAs} from "file-saver";
@@ -67,14 +68,31 @@ export default function(elem, options) {
     context.fill();
   }
 
+  let offsetX = 0, offsetY = 0;
+  if (elem.getBoundingClientRect) {
+    const bounds = elem.getBoundingClientRect();
+    offsetX = bounds.left;
+    offsetY = bounds.top;
+  }
+  else {
+    offsetX = elem.offsetLeft;
+    offsetY = elem.offsetTop;
+  }
+
   const layers = [];
 
   function checkChildren(e, trans = {x: 0, y: 0, scale: 1}) {
     selectAll(e.childNodes).each(function() {
+
       const transform = Object.assign({}, trans);
 
       // strips translate and scale from transform property
       if (this.tagName) {
+
+        const opacity = select(this).attr("opacity") || select(this).style("opacity");
+        const display = select(this).style("display");
+        const visibility = select(this).style("visibility");
+        if (display === "none" || visibility === "hidden" || opacity && opacity === 0) return;
 
         const property = select(this).attr("transform"),
               tag = this.tagName.toLowerCase();
@@ -140,24 +158,55 @@ export default function(elem, options) {
         }
       }
       else if (tag === "defs") return;
-      else if (tag === "g" && this.childNodes.length > 0 && !select(this).selectAll("pattern, image, foreignobject").size() && !patterns) {
-        const opacity = select(this).attr("opacity") || select(this).style("opacity");
-        if (opacity && parseFloat(opacity) > 0) {
-          const elem = this.cloneNode(true);
-          select(elem).selectAll("*").each(function() {
-            select(this).call(strokeWidth);
-          });
-          layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
-        }
-      }
       else if (tag === "text") {
         const elem = this.cloneNode(true);
         select(elem).call(strokeWidth);
         layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
       }
+      else if (tag === "foreignobject") {
+
+        const data = {
+          loaded: false,
+          type: "html",
+          x: transform.x,
+          y: transform.y
+        };
+
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = (width + options.padding * 2) * options.scale * ratio;
+        tempCanvas.height = (height + options.padding * 2) * options.scale * ratio;
+
+        const tempContext = tempCanvas.getContext("2d");
+        tempContext.scale(options.scale * ratio, options.scale * ratio);
+
+        layers.push(data);
+        html2canvas(this, {
+          allowTaint: true,
+          background: undefined,
+          canvas: tempCanvas,
+          height,
+          letterRendering: true,
+          taintTest: false,
+          width
+        }).then(c => {
+          data.value = c;
+          data.loaded = true;
+        });
+
+      }
       else if (this.childNodes.length > 0) {
-        const opacity = select(this).attr("opacity") || select(this).style("opacity");
-        if (opacity && parseFloat(opacity) > 0) checkChildren(this, transform);
+        if (tag === "svg") {
+          if (this.getBoundingClientRect) {
+            const rect = this.getBoundingClientRect();
+            transform.x = rect.left - offsetX;
+            transform.y = rect.top - offsetY;
+          }
+          else {
+            transform.x += this.offsetLeft;
+            transform.y += this.offsetTop;
+          }
+        }
+        checkChildren(this, transform);
       }
       else if (["image", "img"].includes(tag)) {
 
@@ -190,8 +239,8 @@ export default function(elem, options) {
             const himg = document.createElement("img");
             himg.src = canvas2.toDataURL("image/png");
 
-            data.loaded = true;
             data.value = himg;
+            data.loaded = true;
 
           };
           img.src = url;
@@ -199,7 +248,7 @@ export default function(elem, options) {
         }
 
       }
-      else {
+      else if (tag !== "g") { // catches all SVG shapes
 
         const elem = this.cloneNode(true);
         select(elem).call(strokeWidth);
@@ -269,6 +318,14 @@ export default function(elem, options) {
           context.restore();
           break;
 
+        case "html":
+          context.save();
+          context.beginPath();
+          context.translate(options.padding, options.padding);
+          context.drawImage(layer.value, -offsetX, -offsetY, width, height);
+          context.restore();
+          break;
+
         case "text":
 
           const parent = select(layer.style);
@@ -293,6 +350,7 @@ export default function(elem, options) {
           break;
 
         case "svg":
+
           const outer = IE ? (new XMLSerializer()).serializeToString(layer.value) : layer.value.outerHTML;
           context.save();
           context.translate(options.padding, options.padding);
