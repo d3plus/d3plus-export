@@ -34,6 +34,7 @@ export default function(elem, options) {
   if (!elem) return;
   options = Object.assign({}, defaultOptions, options);
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
+  const ratio = window ? window.devicePixelRatio || 1 : 1;
 
   if (options.type === "svg") {
     const outer = IE ? (new XMLSerializer()).serializeToString(elem) : elem.outerHTML;
@@ -41,15 +42,22 @@ export default function(elem, options) {
     return;
   }
 
+  function strokeWidth(selection) {
+    const stroke = selection.attr("stroke-width");
+    selection.attr("stroke-width", !stroke ? 0 : stroke * ratio);
+  }
+
   const height = parseFloat(select(elem).style("height")),
         width = parseFloat(select(elem).style("width"));
 
   const canvas = document.createElement("canvas");
-  canvas.width = (width + options.padding * 2) * options.scale;
-  canvas.height = (height + options.padding * 2) * options.scale;
+  canvas.width = (width + options.padding * 2) * options.scale * ratio;
+  canvas.height = (height + options.padding * 2) * options.scale * ratio;
+  canvas.style.width = (width + options.padding * 2) * options.scale;
+  canvas.style.height = (height + options.padding * 2) * options.scale;
 
   const context = canvas.getContext("2d");
-  context.scale(options.scale, options.scale);
+  context.scale(options.scale * ratio, options.scale * ratio);
   context.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
 
   if (options.type === "pdf") {
@@ -135,15 +143,17 @@ export default function(elem, options) {
       else if (tag === "g" && this.childNodes.length > 0 && !select(this).selectAll("pattern, image, foreignobject").size() && !patterns) {
         const opacity = select(this).attr("opacity") || select(this).style("opacity");
         if (opacity && parseFloat(opacity) > 0) {
-          select(this).selectAll("*").each(function() {
-            if (select(this).attr("stroke-width") === null) select(this).attr("stroke-width", 0);
+          const elem = this.cloneNode(true);
+          select(elem).selectAll("*").each(function() {
+            select(this).call(strokeWidth);
           });
-          layers.push(Object.assign({}, transform, {type: "svg", value: this}));
+          layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
         }
       }
       else if (tag === "text") {
-        if (select(this).attr("stroke-width") === null) select(this).attr("stroke-width", 0);
-        layers.push(Object.assign({}, transform, {type: "svg", value: this}));
+        const elem = this.cloneNode(true);
+        select(elem).call(strokeWidth);
+        layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
       }
       else if (this.childNodes.length > 0) {
         const opacity = select(this).attr("opacity") || select(this).style("opacity");
@@ -174,9 +184,9 @@ export default function(elem, options) {
 
             const canvas2 = document.createElement("canvas");
             const ctx2 = canvas2.getContext("2d");
-            canvas2.height = height;
-            canvas2.width = width;
-            ctx2.drawImage(this, 0, 0, width, height);
+            canvas2.height = height * ratio;
+            canvas2.width = width * ratio;
+            ctx2.drawImage(this, 0, 0, width * ratio, height * ratio);
             const himg = document.createElement("img");
             himg.src = canvas2.toDataURL("image/png");
 
@@ -191,13 +201,14 @@ export default function(elem, options) {
       }
       else {
 
-        if (select(this).attr("stroke-width") === null) select(this).attr("stroke-width", 0);
-        layers.push(Object.assign({}, transform, {type: "svg", value: this}));
-        // if (["pattern"].includes(tag)) layers.push(Object.assign({}, transform, {type: "svg", value: this}));
-        // else layers.push({type: "svg", value: this});
-        const fill = select(this).attr("fill");
+        const elem = this.cloneNode(true);
+        select(elem).call(strokeWidth);
+        layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
+        // if (["pattern"].includes(tag)) layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
+        // else layers.push({type: "svg", value: elem});
+        const fill = select(elem).attr("fill");
         if (fill && fill.indexOf("url") === 0) {
-          const property = select(this).attr("transform");
+          const property = select(elem).attr("transform");
 
           if (property) {
             const scale = property.match(/scale\(([^a-z]+)\)/i);
