@@ -32,7 +32,8 @@ export default function(elem, options = {}, renderOptions = {}) {
   dom2canvas(elem, Object.assign({}, renderOptions, {callback: canvas => {
 
     if (renderOptions.callback) renderOptions.callback(canvas);
-    else if (["jpg", "png"].includes(options.type)) {
+
+    if (["jpg", "png"].includes(options.type)) {
       canvas.toBlob(blob => saveAs(blob, options.filename));
     }
     // else if (options.type === "pdf") {
