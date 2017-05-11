@@ -5,7 +5,7 @@ import {select, selectAll} from "d3-selection";
 const defaultOptions = {
   background: false,
   callback: () => {},
-  excludes: [],
+  exclude: [],
   padding: 0,
   scale: 1
 };
