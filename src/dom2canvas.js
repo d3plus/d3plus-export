@@ -52,7 +52,7 @@ export default function(elem, options) {
   const height = options.height || parseFloat(select(reference).style("height")),
         width = options.width || parseFloat(select(reference).style("width"));
 
-  let offsetX = 0, offsetY = 0, layerX, layerY;
+  let layerX, layerY, offsetX = 0, offsetY = 0;
   if (reference.getBoundingClientRect) {
     const bounds = reference.getBoundingClientRect();
     offsetX = bounds.left;
