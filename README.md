@@ -65,4 +65,4 @@ This is a global function.
 
 ---
 
-###### <sub>Documentation generated on Thu, 11 May 2017 18:35:17 GMT</sub>
+###### <sub>Documentation generated on Thu, 11 May 2017 19:33:30 GMT</sub>
