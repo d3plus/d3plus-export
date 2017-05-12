@@ -94,7 +94,7 @@ export default function(elem, options) {
       const opacity = select(this).attr("opacity") || select(this).style("opacity");
       const display = select(this).style("display");
       const visibility = select(this).style("visibility");
-      if (display === "none" || visibility === "hidden" || opacity && opacity === 0) return;
+      if (display === "none" || visibility === "hidden" || opacity && parseFloat(opacity) === 0) return;
 
       const property = select(this).attr("transform"),
             tag = this.tagName.toLowerCase();
@@ -241,6 +241,8 @@ export default function(elem, options) {
 
     }
     else if (tag !== "g") { // catches all SVG shapes
+
+      if (tag === "path") console.log(this);
 
       const elem = this.cloneNode(true);
       select(elem).call(strokeWidth);
