@@ -43,7 +43,7 @@ export default function(elem, options) {
 
   function strokeWidth(selection) {
     const stroke = selection.attr("stroke-width");
-    selection.attr("stroke-width", !stroke ? 0 : stroke * ratio);
+    selection.attr("stroke-width", !stroke ? 0 : stroke);
   }
 
   let reference = elem[0];
