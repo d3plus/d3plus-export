@@ -242,8 +242,6 @@ export default function(elem, options) {
     }
     else if (tag !== "g") { // catches all SVG shapes
 
-      if (tag === "path") console.log(this);
-
       const elem = this.cloneNode(true);
       select(elem).call(strokeWidth);
       layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
@@ -317,7 +315,7 @@ export default function(elem, options) {
     for (let i = 0; i < layers.length; i++) {
 
       const layer = layers[i];
-      const {clip} = layer;
+      const clip = layer.clip || {height, width, x: 0, y: 0};
 
       switch (layer.type) {
 
@@ -325,7 +323,7 @@ export default function(elem, options) {
           context.save();
           context.beginPath();
           context.translate(options.padding, options.padding);
-          context.rect(clip ? clip.x : 0, clip ? clip.y : 0, clip ? clip.width : width, clip ? clip.height : height);
+          context.rect(clip.x, clip.y, clip.width, clip.height);
           context.clip();
           context.drawImage(layer.value, layer.x, layer.y, layer.width, layer.height);
           context.restore();
@@ -357,7 +355,7 @@ export default function(elem, options) {
 
           context.save();
           context.translate(options.padding, options.padding);
-          canvg(canvas, text, Object.assign({offsetX: layer.x, offsetY: layer.y}, canvgOptions));
+          canvg(canvas, text, Object.assign({}, canvgOptions, {offsetX: layer.x, offsetY: layer.y}));
           context.restore();
 
           break;
@@ -366,10 +364,10 @@ export default function(elem, options) {
 
           const outer = IE ? (new XMLSerializer()).serializeToString(layer.value) : layer.value.outerHTML;
           context.save();
-          context.translate(options.padding, options.padding);
-          context.rect(clip ? clip.x : 0, clip ? clip.y : 0, clip ? clip.width : width, clip ? clip.height : height);
+          context.translate(options.padding + clip.x, options.padding + clip.y);
+          context.rect(0, 0, clip.width, clip.height);
           context.clip();
-          canvg(canvas, outer, Object.assign({offsetX: layer.x, offsetY: layer.y}, canvgOptions));
+          canvg(canvas, outer, Object.assign({}, canvgOptions, {offsetX: layer.x + clip.x, offsetY: layer.y + clip.y}));
           context.restore();
           break;
 
