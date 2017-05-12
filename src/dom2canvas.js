@@ -100,14 +100,17 @@ export default function(elem, options) {
             tag = this.tagName.toLowerCase();
 
       if (tag === "g" && property) {
-        const scale = property.match(/scale\(([^a-z]+)\)/i);
-        if (scale) transform.scale *= Math.round(parseFloat(scale[1]));
+        let scale = property.match(/scale\(([^a-z]+)\)/i);
+        if (scale) {
+          scale = parseFloat(scale[1]);
+          transform.scale *= scale;
+        }
         const translate = property.match(/translate\(([^a-z]+)\)/i);
         if (translate) {
           const [x, y] = translate[1]
             .replace(/([^a-z]),*\s([^a-z])/gi, "$1,$2")
             .split(",")
-            .map(d => Math.round(parseFloat(d) * transform.scale));
+            .map(d => parseFloat(d) * scale);
           transform.x += x;
           transform.y += y;
         }
@@ -115,14 +118,14 @@ export default function(elem, options) {
 
       if (tag === "svg") {
         let x = select(this).attr("x");
-        x = x ? Math.round(parseFloat(x)) * transform.scale : 0;
+        x = x ? parseFloat(x) * transform.scale : 0;
         transform.x += x;
         let y = select(this).attr("y");
-        y = y ? Math.round(parseFloat(y)) * transform.scale : 0;
+        y = y ? parseFloat(y) * transform.scale : 0;
         transform.y += y;
         transform.clip = {
-          height: Math.round(parseFloat(select(this).attr("height") || select(this).style("height"))),
-          width: Math.round(parseFloat(select(this).attr("width") || select(this).style("width"))),
+          height: parseFloat(select(this).attr("height") || select(this).style("height")),
+          width: parseFloat(select(this).attr("width") || select(this).style("width")),
           x, y
         };
       }
@@ -205,15 +208,18 @@ export default function(elem, options) {
       const url = select(this).attr("href") || select(this).attr("xlink:href");
 
       if (url.length) {
-        const height = parseFloat(select(this).attr("height")) * transform.scale,
-              width = parseFloat(select(this).attr("width")) * transform.scale;
+
+        const h = parseFloat(select(this).attr("height")) * transform.scale,
+              w = parseFloat(select(this).attr("width")) * transform.scale;
+
+        // console.log(x, w, transform.x, transform.scale, this);
 
         const data = {
           clip: transform.clip,
-          height,
+          height: h,
           loaded: false,
           type: "img",
-          width,
+          width: w,
           x: transform.x,
           y: transform.y
         };
@@ -225,9 +231,9 @@ export default function(elem, options) {
 
           const canvas2 = document.createElement("canvas");
           const ctx2 = canvas2.getContext("2d");
-          canvas2.height = height * ratio;
-          canvas2.width = width * ratio;
-          ctx2.drawImage(this, 0, 0, width * ratio, height * ratio);
+          canvas2.height = h * ratio;
+          canvas2.width = w * ratio;
+          ctx2.drawImage(this, 0, 0, w * ratio, h * ratio);
           const himg = document.createElement("img");
           himg.src = canvas2.toDataURL("image/png");
 
@@ -252,14 +258,17 @@ export default function(elem, options) {
         const property = select(elem).attr("transform");
 
         if (property) {
-          const scale = property.match(/scale\(([^a-z]+)\)/i);
-          if (scale) transform.scale *= Math.round(parseFloat(scale[1]));
+          let scale = property.match(/scale\(([^a-z]+)\)/i);
+          if (scale) {
+            scale = parseFloat(scale[1]);
+            transform.scale *= scale;
+          }
           const translate = property.match(/translate\(([^a-z]+)\)/i);
           if (translate) {
             const [x, y] = translate[1]
               .replace(/([^a-z]),*\s([^a-z])/gi, "$1,$2")
               .split(",")
-              .map(d => Math.round(parseFloat(d) * transform.scale));
+              .map(d => parseFloat(d) * scale);
             transform.x += x;
             transform.y += y;
           }
@@ -322,10 +331,10 @@ export default function(elem, options) {
         case "img":
           context.save();
           context.beginPath();
-          context.translate(options.padding, options.padding);
-          context.rect(clip.x, clip.y, clip.width, clip.height);
+          context.translate(options.padding + clip.x, options.padding + clip.y);
+          context.rect(0, 0, clip.width, clip.height);
           context.clip();
-          context.drawImage(layer.value, layer.x, layer.y, layer.width, layer.height);
+          context.drawImage(layer.value, layer.x + clip.x, layer.y + clip.y, layer.width, layer.height);
           context.restore();
           break;
 
