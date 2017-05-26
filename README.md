@@ -9,7 +9,7 @@ Export methods for transforming and downloading SVG.
 If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-export/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-export.v0.2.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-export.v0.3.full.min.js"></script>
 ```
 
 
@@ -22,7 +22,7 @@ If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the 
 ---
 
 <a name="dom2canvas"></a>
-#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L20)
+#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L41)
 
 Renders HTML/SVG elements to a shared canvas.
 
@@ -65,4 +65,4 @@ This is a global function.
 
 ---
 
-###### <sub>Documentation generated on Thu, 11 May 2017 19:33:30 GMT</sub>
+###### <sub>Documentation generated on Fri, 26 May 2017 18:21:11 GMT</sub>
