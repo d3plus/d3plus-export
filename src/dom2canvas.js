@@ -2,6 +2,8 @@ import html2canvas from "html2canvas";
 import canvg from "canvg-browser";
 import {select, selectAll} from "d3-selection";
 
+import svgPresets from "./svgPresets";
+
 const defaultOptions = {
   background: false,
   callback: () => {},
@@ -61,11 +63,6 @@ export default function(elem, options) {
   options = Object.assign({}, defaultOptions, options);
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
   const ratio = window ? window.devicePixelRatio || 1 : 1;
-
-  function strokeWidth(selection) {
-    const stroke = selection.attr("stroke-width");
-    selection.attr("stroke-width", !stroke ? 0 : stroke);
-  }
 
   let reference = elem[0];
   if (reference.constructor === Object) reference = reference.element;
@@ -173,7 +170,7 @@ export default function(elem, options) {
     else if (tag === "defs") return;
     else if (tag === "text") {
       const elem = this.cloneNode(true);
-      select(elem).call(strokeWidth);
+      select(elem).call(svgPresets);
       layers.push(Object.assign({}, transform, {type: "svg", value: elem}));
     }
     else if (["image", "img"].includes(tag)) {
@@ -251,7 +248,7 @@ export default function(elem, options) {
 
       const elem = this.cloneNode(true);
       select(elem).selectAll("*").each(function() {
-        select(this).call(strokeWidth);
+        select(this).call(svgPresets);
         if (select(this).attr("opacity") === "0") this.parentNode.removeChild(this);
       });
 
@@ -280,7 +277,7 @@ export default function(elem, options) {
         const [scale, x, y] = parseTransform(elem);
         if (select(elem).attr("transform")) select(elem).attr("transform", `scale(${scale})translate(${x + transform.x},${y + transform.y})`);
       }
-      select(elem).call(strokeWidth);
+      select(elem).call(svgPresets);
 
       const fill = select(elem).attr("fill");
       const defFill = fill && fill.indexOf("url") === 0;
