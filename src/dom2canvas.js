@@ -238,11 +238,8 @@ export default function(elem, options) {
       layers.push(data);
       html2canvas(this, {
         allowTaint: true,
-        background: undefined,
         canvas: tempCanvas,
         height,
-        letterRendering: true,
-        taintTest: false,
         width
       }).then(c => {
         data.value = c;
