@@ -18,17 +18,17 @@ If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the 
 ##### Functions
 * [dom2canvas](#dom2canvas) - Renders HTML/SVG elements to a shared canvas.
 * [saveElement](#saveElement) - Downloads an HTML Element as a bitmap PNG image.
+* [svgPresets](#svgPresets) - Adds SVG default attributes to a d3 selection in order to redner it properly.
 
 ---
 
 <a name="dom2canvas"></a>
-#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L41)
+#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L43)
 
 Renders HTML/SVG elements to a shared canvas.
 
 
 This is a global function.
-
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -44,6 +44,7 @@ This is a global function.
 | [options.scale] | <code>Number</code> | <code>1</code> | Scale for the final file. |
 | [options.width] | <code>Number</code> |  | Pixel width for the final output. If a width value has not been passed, it will be inferred from the sizing of the first DOM element passed. |
 
+
 ---
 
 <a name="saveElement"></a>
@@ -54,7 +55,6 @@ Downloads an HTML Element as a bitmap PNG image.
 
 This is a global function.
 
-
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | elem | <code>HTMLElement</code> \| <code>Array</code> |  | A single element or array of elements to be saved to one file. |
@@ -63,6 +63,19 @@ This is a global function.
 | [options.type] | <code>String</code> | <code>&quot;png&quot;</code> | File type of the saved document. Accepted values are `"png"` and `"jpg"`. |
 | [renderOptions] | <code>Object</code> |  | Custom options to be passed to the dom2canvas function. |
 
+
 ---
 
-###### <sub>Documentation generated on Fri, 26 May 2017 18:21:11 GMT</sub>
+<a name="svgPresets"></a>
+#### d3plus.**svgPresets**(selection) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/svgPresets.js#L1)
+
+Adds SVG default attributes to a d3 selection in order to redner it properly.
+
+
+This is a global function.
+
+---
+
+
+
+###### <sub>Documentation generated on Wed, 30 Aug 2017 21:44:58 GMT</sub>
