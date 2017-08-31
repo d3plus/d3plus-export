@@ -23,7 +23,7 @@ If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the 
 ---
 
 <a name="dom2canvas"></a>
-#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L43)
+#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L49)
 
 Renders HTML/SVG elements to a shared canvas.
 
@@ -78,4 +78,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Wed, 30 Aug 2017 21:44:58 GMT</sub>
+###### <sub>Documentation generated on Thu, 31 Aug 2017 16:49:34 GMT</sub>
