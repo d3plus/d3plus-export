@@ -19,6 +19,12 @@ const canvgOptions = {
   ignoreClear: true
 };
 
+/**
+    @function parseTransform
+    @desc Extracts scale, x, and y position from an elements "transform" attribute, respecting cross-browser render differences.
+    @param {HTMLElement} elem The element to be analyzed.
+    @private
+*/
 function parseTransform(elem) {
 
   const property = select(elem).attr("transform");
@@ -102,7 +108,8 @@ export default function(elem, options) {
 
   function checkRender(trans) {
 
-    if (options.exclude.includes(this)) return;
+    const tag = (this.tagName || "").toLowerCase();
+    if (options.exclude.includes(this) || tag === "foreignobject") return;
 
     const transform = Object.assign({}, trans);
 
@@ -148,8 +155,6 @@ export default function(elem, options) {
       }
 
     }
-
-    const tag = (this.tagName || "").toLowerCase();
 
     if (!tag.length) {
       const test = (this.wholeText || "").replace(/\s/g, "");
@@ -214,7 +219,7 @@ export default function(elem, options) {
       }
 
     }
-    else if (["div", "foreignobject", "span"].includes(tag) && !select(this).selectAll("svg").size()) {
+    else if (["div", "span"].includes(tag) && !select(this).selectAll("svg").size()) {
 
       const data = {
         height,
@@ -244,7 +249,7 @@ export default function(elem, options) {
       });
 
     }
-    else if (tag !== "svg" && this.childNodes.length > 0 && !select(this).selectAll("foreignobject, image, img, svg").size()) {
+    else if (tag !== "svg" && this.childNodes.length > 0 && !select(this).selectAll("image, img, svg").size()) {
 
       const elem = this.cloneNode(true);
       select(elem).selectAll("*").each(function() {
