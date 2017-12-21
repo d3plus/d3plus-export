@@ -15,7 +15,7 @@ If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the 
 
 ## API Reference
 
-##### Functions
+##### 
 * [dom2canvas](#dom2canvas) - Renders HTML/SVG elements to a shared canvas.
 * [saveElement](#saveElement) - Downloads an HTML Element as a bitmap PNG image.
 * [svgPresets](#svgPresets) - Adds SVG default attributes to a d3 selection in order to redner it properly.
@@ -78,4 +78,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Thu, 31 Aug 2017 16:49:34 GMT</sub>
+###### <sub>Documentation generated on Thu, 21 Dec 2017 21:11:44 GMT</sub>
