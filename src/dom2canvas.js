@@ -95,11 +95,11 @@ export default function(elem, options) {
 
   const context = canvas.getContext("2d");
   context.scale(options.scale * ratio, options.scale * ratio);
-  context.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
+  context.clearRect(0, 0, canvas.width / ratio, canvas.height / ratio);
 
   if (options.background) {
     context.beginPath();
-    context.rect(0, 0, canvas.width / 2, canvas.height / 2);
+    context.rect(0, 0, canvas.width / ratio, canvas.height / ratio);
     context.fillStyle = options.background;
     context.fill();
   }
