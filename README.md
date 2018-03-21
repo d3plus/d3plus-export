@@ -1,6 +1,6 @@
 # d3plus-export
 
-[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export) [![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat)](https://gitter.im/d3plus/)
+[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export) [![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) 
 
 Export methods for transforming and downloading SVG.
 
@@ -78,4 +78,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Thu, 21 Dec 2017 21:11:44 GMT</sub>
+###### <sub>Documentation generated on Wed, 21 Mar 2018 20:07:32 GMT</sub>
