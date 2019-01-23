@@ -219,7 +219,7 @@ export default function(elem, options) {
       }
 
     }
-    else if (["div", "span"].includes(tag) && !select(this).selectAll("svg").size()) {
+    else if (!["svg", "g", "text"].includes(tag) && !select(this).selectAll("svg").size()) {
 
       const data = {
         height,
@@ -238,6 +238,7 @@ export default function(elem, options) {
       tempContext.scale(options.scale * ratio, options.scale * ratio);
 
       layers.push(data);
+
       html2canvas(this, {
         allowTaint: true,
         canvas: tempCanvas,
@@ -263,9 +264,7 @@ export default function(elem, options) {
     else if (this.childNodes.length > 0) {
       checkChildren(this, transform);
     }
-    else { // catches all SVG shapes
-
-      // console.log(this);
+    else { // catches all SVG shapes=
 
       const elem = this.cloneNode(true);
       select(elem).selectAll("*").each(function() {
@@ -399,7 +398,7 @@ export default function(elem, options) {
         case "svg":
           const outer = IE ? (new XMLSerializer()).serializeToString(layer.value) : layer.value.outerHTML;
           context.save();
-          context.translate(options.padding + clip.x, options.padding + clip.y);
+          context.translate(options.padding + clip.x + layer.x, options.padding + clip.y + layer.y);
           context.rect(0, 0, clip.width, clip.height);
           context.clip();
           canvg(canvas, outer, Object.assign({}, canvgOptions, {offsetX: layer.x + clip.x, offsetY: layer.y + clip.y}));
