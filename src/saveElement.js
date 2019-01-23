@@ -1,6 +1,6 @@
 import "canvas-toBlob";
 import {saveAs} from "file-saver";
-// import {default as JsPDF} from "jspdf";
+// import JsPDF from "jspdf";
 
 import dom2canvas from "./dom2canvas";
 
@@ -22,6 +22,7 @@ export default function(elem, options = {}, renderOptions = {}) {
 
   if (!elem) return;
   options = Object.assign({}, defaultOptions, options);
+
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
 
   if (!(elem instanceof Array) && options.type === "svg") {
@@ -37,23 +38,26 @@ export default function(elem, options = {}, renderOptions = {}) {
       canvas.toBlob(blob => saveAs(blob, options.filename));
     }
     // else if (options.type === "pdf") {
-    //
+
     //   const outputHeight = 11,
-    //         outputUnit = "in",
     //         outputWidth = 8.5;
-    //
+
     //   const aspect = canvas.width / canvas.height,
     //         orientation = aspect > 1 ? "landscape" : "portrait";
-    //
-    //   const pdf = new JsPDF(orientation, outputUnit, [outputWidth, outputHeight]);
-    //
+
+    //   const pdf = new JsPDF({
+    //     orientation,
+    //     unit: "in",
+    //     format: [outputWidth, outputHeight]
+    //   });
+
     //   let h = orientation === "landscape" ? outputWidth : outputHeight,
     //       left,
     //       top,
     //       w = orientation === "landscape" ? outputHeight : outputWidth;
-    //
+
     //   const margin = 0.5;
-    //
+
     //   if (aspect < w / h) {
     //     h -= margin * 2;
     //     const tempWidth = h * aspect;
@@ -68,10 +72,10 @@ export default function(elem, options = {}, renderOptions = {}) {
     //     top = (h - tempHeight) / 2;
     //     h = tempHeight;
     //   }
-    //
+
     //   pdf.addImage(canvas, "canvas", left, top, w, h);
     //   pdf.save(options.filename);
-    //
+
     // }
 
   }}));
