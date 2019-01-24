@@ -122,6 +122,9 @@ export default function(elem, options) {
       if (display === "none" || visibility === "hidden" || opacity && parseFloat(opacity) === 0) return;
 
       const tag = this.tagName.toLowerCase();
+
+      if (tag.length && ["defs", "title", "desc"].includes(tag)) return;
+
       const [scale, x, y] = parseTransform(this);
 
       if (tag === "g") {
@@ -129,8 +132,7 @@ export default function(elem, options) {
         transform.x += x;
         transform.y += y;
       }
-
-      if (tag === "svg") {
+      else if (tag === "svg") {
         const rect = this.getBoundingClientRect();
         transform.x += rect.left - offsetX;
         transform.y += rect.top - offsetY;
@@ -172,7 +174,6 @@ export default function(elem, options) {
 
       }
     }
-    else if (tag === "defs") return;
     else if (tag === "text") {
       const elem = this.cloneNode(true);
       select(elem).call(svgPresets);
@@ -221,29 +222,31 @@ export default function(elem, options) {
     }
     else if (!["svg", "g", "text"].includes(tag) && !select(this).selectAll("svg").size()) {
 
+      const s = options.scale * ratio;
+
       const data = {
-        height,
+        height: height + options.padding * 2 + offsetY,
         loaded: false,
         type: "html",
-        width,
+        width: width + options.padding * 2 + offsetX,
         x: layerX - offsetX,
         y: layerY - offsetY
       };
 
       const tempCanvas = document.createElement("canvas");
-      tempCanvas.width = (width + options.padding * 2) * options.scale * ratio;
-      tempCanvas.height = (height + options.padding * 2) * options.scale * ratio;
+      tempCanvas.width = (width + options.padding * 2 + offsetX) * s;
+      tempCanvas.height = (height + options.padding * 2 + offsetY) * s;
+      tempCanvas.style.width = `${(width + options.padding * 2 + offsetX) * s}px`;
+      tempCanvas.style.height = `${(height + options.padding * 2 + offsetY) * s}px`;
 
       const tempContext = tempCanvas.getContext("2d");
-      tempContext.scale(options.scale * ratio, options.scale * ratio);
+      tempContext.scale(s, s);
 
       layers.push(data);
 
       html2canvas(this, {
         allowTaint: true,
-        canvas: tempCanvas,
-        height,
-        width
+        canvas: tempCanvas
       }).then(c => {
         data.value = c;
         data.loaded = true;
