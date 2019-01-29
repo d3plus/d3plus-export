@@ -125,17 +125,15 @@ export default function(elem, options) {
 
       if (tag.length && ["defs", "title", "desc"].includes(tag)) return;
 
-      const [scale, x, y] = parseTransform(this);
+      if (tag === "svg") {
 
-      if (tag === "g") {
-        transform.scale *= scale;
-        transform.x += x;
-        transform.y += y;
-      }
-      else if (tag === "svg") {
-        const rect = this.getBoundingClientRect();
-        transform.x += rect.left - offsetX;
-        transform.y += rect.top - offsetY;
+        // do not perform this transform for SVGs nested within other SVGs
+        if (!transform.svg) {
+          const {left, top} = this.getBoundingClientRect();
+          transform.x += left - offsetX;
+          transform.y += top - offsetY;
+          transform.svg = true;
+        }
 
         let x = select(this).attr("x");
         x = x ? parseFloat(x) * transform.scale : 0;
@@ -267,7 +265,7 @@ export default function(elem, options) {
     else if (this.childNodes.length > 0) {
       checkChildren(this, transform);
     }
-    else { // catches all SVG shapes=
+    else { // catches all SVG shapes
 
       const elem = this.cloneNode(true);
       select(elem).selectAll("*").each(function() {
@@ -318,7 +316,7 @@ export default function(elem, options) {
   for (let i = 0; i < elem.length; i++) {
 
     let e = elem[i],
-        options = {scale: 1, x: 0, y: 0};
+        options = {scale: 1, x: 0, y: 0, svg: false};
 
     if (e.constructor === Object) {
       options = Object.assign(options, e);
