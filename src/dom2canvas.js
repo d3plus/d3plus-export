@@ -73,8 +73,14 @@ export default function(elem, options) {
   let reference = elem[0];
   if (reference.constructor === Object) reference = reference.element;
 
-  const height = options.height || parseFloat(select(reference).style("height")),
-        width = options.width || parseFloat(select(reference).style("width"));
+  const height = options.height ||
+          parseFloat(select(reference).style("height")) +
+          parseFloat(select(reference).style("padding-top")) +
+          parseFloat(select(reference).style("padding-bottom")),
+        width = options.width ||
+          parseFloat(select(reference).style("width")) +
+          parseFloat(select(reference).style("padding-left")) +
+          parseFloat(select(reference).style("padding-right"));
 
   let layerX, layerY, offsetX = 0, offsetY = 0;
   if (reference.getBoundingClientRect) {
