@@ -250,7 +250,8 @@ export default function(elem, options) {
 
       html2canvas(this, {
         allowTaint: true,
-        canvas: tempCanvas
+        canvas: tempCanvas,
+        letterRendering: true
       }).then(c => {
         data.value = c;
         data.loaded = true;
