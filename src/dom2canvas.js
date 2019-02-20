@@ -223,19 +223,19 @@ export default function(elem, options) {
       const s = options.scale * ratio;
 
       const data = {
-        height: height + options.padding * 2 + offsetY,
+        height: Math.floor(height + options.padding * 2 + offsetY),
         loaded: false,
         type: "html",
-        width: width + options.padding * 2 + offsetX,
-        x: layerX - offsetX,
-        y: layerY - offsetY
+        width: Math.floor(width + options.padding * 2 + offsetX),
+        x: Math.floor(layerX - offsetX),
+        y: Math.floor(layerY - offsetY)
       };
 
       const tempCanvas = document.createElement("canvas");
-      tempCanvas.width = (width + options.padding * 2 + offsetX) * s;
-      tempCanvas.height = (height + options.padding * 2 + offsetY) * s;
-      tempCanvas.style.width = `${(width + options.padding * 2 + offsetX) * s}px`;
-      tempCanvas.style.height = `${(height + options.padding * 2 + offsetY) * s}px`;
+      tempCanvas.width = data.width * s;
+      tempCanvas.height = data.height * s;
+      tempCanvas.style.width = `${data.width * s}px`;
+      tempCanvas.style.height = `${data.height * s}px`;
 
       const tempContext = tempCanvas.getContext("2d");
       tempContext.scale(s, s);
