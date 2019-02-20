@@ -35,7 +35,7 @@ export default function(elem, options = {}, renderOptions = {}) {
     if (renderOptions.callback) renderOptions.callback(canvas);
 
     if (["jpg", "png"].includes(options.type)) {
-      canvas.toBlob(blob => saveAs(blob, options.filename));
+      canvas.toBlob(blob => saveAs(blob, `${options.filename}.${options.type}`));
     }
     // else if (options.type === "pdf") {
 
