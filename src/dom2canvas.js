@@ -3,6 +3,7 @@ import canvg from "canvg-browser";
 import {select, selectAll} from "d3-selection";
 
 import svgPresets from "./svgPresets";
+import htmlPresets from "./htmlPresets";
 
 const defaultOptions = {
   background: false,
@@ -247,6 +248,8 @@ export default function(elem, options) {
       tempContext.scale(s, s);
 
       layers.push(data);
+
+      htmlPresets(select(this));
 
       html2canvas(this, {
         allowTaint: true,

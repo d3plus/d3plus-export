@@ -1,6 +1,6 @@
 /**
     @function svgPresets
-    @desc Adds SVG default attributes to a d3 selection in order to redner it properly.
+    @desc Adds SVG default attributes to a d3 selection in order to render it properly.
     @param {Selection} selection
 */
 export default function(selection) {
