@@ -17,13 +17,14 @@ If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the 
 
 ##### 
 * [dom2canvas](#dom2canvas) - Renders HTML/SVG elements to a shared canvas.
+* [htmlPresets](#htmlPresets) - Adds HTML default styles to a d3 selection in order to render it properly.
 * [saveElement](#saveElement) - Downloads an HTML Element as a bitmap PNG image.
-* [svgPresets](#svgPresets) - Adds SVG default attributes to a d3 selection in order to redner it properly.
+* [svgPresets](#svgPresets) - Adds SVG default attributes to a d3 selection in order to render it properly.
 
 ---
 
 <a name="dom2canvas"></a>
-#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L49)
+#### d3plus.**dom2canvas**(elem, [options]) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/dom2canvas.js#L50)
 
 Renders HTML/SVG elements to a shared canvas.
 
@@ -44,6 +45,16 @@ This is a global function.
 | [options.scale] | <code>Number</code> | <code>1</code> | Scale for the final file. |
 | [options.width] | <code>Number</code> |  | Pixel width for the final output. If a width value has not been passed, it will be inferred from the sizing of the first DOM element passed. |
 
+
+---
+
+<a name="htmlPresets"></a>
+#### d3plus.**htmlPresets**(selection) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/htmlPresets.js#L3)
+
+Adds HTML default styles to a d3 selection in order to render it properly.
+
+
+This is a global function.
 
 ---
 
@@ -69,7 +80,7 @@ This is a global function.
 <a name="svgPresets"></a>
 #### d3plus.**svgPresets**(selection) [<>](https://github.com/d3plus/d3plus-export/blob/master/src/svgPresets.js#L1)
 
-Adds SVG default attributes to a d3 selection in order to redner it properly.
+Adds SVG default attributes to a d3 selection in order to render it properly.
 
 
 This is a global function.
@@ -78,4 +89,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Wed, 20 Feb 2019 22:01:16 GMT</sub>
+###### <sub>Documentation generated on Tue, 05 Mar 2019 19:49:44 GMT</sub>
