@@ -17,4 +17,7 @@ export default function(selection) {
   const fillOpacity = selection.attr("fill-opacity");
   selection.attr("fill-opacity", transparent ? 0 : fillOpacity);
 
+  // "aria-label" properties interfere with text labels ¯\_(ツ)_/¯
+  selection.attr("aria-label", null);
+
 }
