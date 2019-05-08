@@ -273,6 +273,10 @@ export default function(elem, options) {
 
     }
     else if (this.childNodes.length > 0) {
+      const [scale, x, y] = parseTransform(this);
+      transform.scale *= scale;
+      transform.x += x;
+      transform.y += y;
       checkChildren(this, transform);
     }
     else { // catches all SVG shapes
