@@ -128,7 +128,7 @@
     ],
     "quotes": 2,
     "radix": 2,
-    "require-jsdoc": 0,
+    "require-jsdoc": 2,
     "require-yield": 2,
     "semi": 2,
     "semi-spacing": 2,
