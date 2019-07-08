@@ -113,6 +113,11 @@ export default function(elem, options) {
 
   const layers = [];
 
+  /**
+   * Determines how a given DOM element should be rendered.
+   * @param {Object} trans ancestral transform properties
+   * @private
+   */
   function checkRender(trans) {
 
     const tag = (this.tagName || "").toLowerCase();
@@ -321,6 +326,12 @@ export default function(elem, options) {
 
   }
 
+  /**
+   * Performs "checkRender" on all childNodes of a DOM element (used recursively by checkRender)
+   * @param {HTMLElement} e DOM node to traverse
+   * @param {Object} trans ancestral transform properties
+   * @private
+   */
   function checkChildren(e, trans) {
     selectAll(e.childNodes).each(function() {
       checkRender.bind(this)(trans);
@@ -342,6 +353,10 @@ export default function(elem, options) {
 
   }
 
+  /**
+   * Checks the status of each render layer every 500ms, and finishes render once all are complete.
+   * @private
+   */
   function checkStatus() {
 
     let allDone = true;
@@ -357,9 +372,12 @@ export default function(elem, options) {
 
   }
 
-  // Wait for all images to load
   checkStatus();
 
+  /**
+   * Finishes the render after all layers have been rendered to canvas.
+   * @private
+   */
   function finish() {
 
     for (let i = 0; i < layers.length; i++) {
