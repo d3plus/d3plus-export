@@ -89,4 +89,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Wed, 08 May 2019 21:31:44 GMT</sub>
+###### <sub>Documentation generated on Mon, 08 Jul 2019 21:00:23 GMT</sub>
