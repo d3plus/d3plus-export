@@ -26,7 +26,7 @@ export default function(elem, options = {}, renderOptions = {}) {
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
 
   if (!(elem instanceof Array) && options.type === "svg") {
-    const outer = IE ? (new XMLSerializer()).serializeToString(elem) : elem.outerHTML;
+    const outer = IE ? new XMLSerializer().serializeToString(elem) : elem.outerHTML;
     saveAs(new Blob([outer], {type: "application/svg+xml"}), `${options.filename}.svg`);
   }
 

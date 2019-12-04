@@ -435,7 +435,7 @@ export default function(elem, options) {
           break;
 
         case "svg":
-          const outer = IE ? (new XMLSerializer()).serializeToString(layer.value) : layer.value.outerHTML;
+          const outer = IE ? new XMLSerializer().serializeToString(layer.value) : layer.value.outerHTML;
           context.save();
           context.translate(options.padding + clip.x + layer.x, options.padding + clip.y + layer.y);
           context.rect(0, 0, clip.width, clip.height);
