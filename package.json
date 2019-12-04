@@ -1,6 +1,6 @@
 {
   "name": "d3plus-export",
-  "version": "0.3.16",
+  "version": "0.3.17",
   "description": "Export methods for transforming and downloading SVG.",
   "main": "build/d3plus-export.js",
   "jsnext:main": "es/index",
