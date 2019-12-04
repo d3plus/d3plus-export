@@ -225,6 +225,10 @@ export default function(elem, options) {
           data.loaded = true;
 
         };
+        img.onerror = function() {
+          data.loaded = true;
+          data.value = false;
+        };
         img.src = url;
 
       }
@@ -388,13 +392,15 @@ export default function(elem, options) {
       switch (layer.type) {
 
         case "img":
-          context.save();
-          context.beginPath();
-          context.translate(options.padding + clip.x, options.padding + clip.y);
-          context.rect(0, 0, clip.width, clip.height);
-          context.clip();
-          context.drawImage(layer.value, layer.x + clip.x, layer.y + clip.y, layer.width, layer.height);
-          context.restore();
+          if (layer.value) {
+            context.save();
+            context.beginPath();
+            context.translate(options.padding + clip.x, options.padding + clip.y);
+            context.rect(0, 0, clip.width, clip.height);
+            context.clip();
+            context.drawImage(layer.value, layer.x + clip.x, layer.y + clip.y, layer.width, layer.height);
+            context.restore();
+          }
           break;
 
         case "html":
