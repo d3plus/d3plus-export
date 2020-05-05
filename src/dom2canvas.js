@@ -56,6 +56,7 @@ function parseTransform(elem) {
     @param {Object} [options] Additional options to specify.
     @param {String} [options.background] Background color of the rendered canvas.
     @param {Function} [options.callback] Callback function to be passed the canvas element after rendering.
+    @param {HTMLElement} [options.canvas] A canvas DOM element to draw onto. If no element is supplied, a canvas element will be created in memory and passed to the callback function when drawing is complete.
     @param {Array} [options.excludes] An array of HTMLElement objects to be excluded from the render.
     @param {Number} [options.height] Pixel height for the final output. If a height value has not been passed, it will be inferred from the sizing of the first DOM element passed.
     @param {Number} [options.padding = 0] Outer padding for the final file.
@@ -94,7 +95,7 @@ export default function(elem, options) {
     offsetY = reference.offsetTop;
   }
 
-  const canvas = document.createElement("canvas");
+  const canvas = options.canvas || document.createElement("canvas");
   canvas.width = (width + options.padding * 2) * options.scale * ratio;
   canvas.height = (height + options.padding * 2) * options.scale * ratio;
   canvas.style.width = (width + options.padding * 2) * options.scale;
