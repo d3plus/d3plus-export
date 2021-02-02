@@ -1,15 +1,18 @@
 # d3plus-export
 
-[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export) [![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) 
+[![NPM Release](http://img.shields.io/npm/v/d3plus-export.svg?style=flat)](https://www.npmjs.org/package/d3plus-export) [![Build Status](https://travis-ci.org/d3plus/d3plus-export.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-export) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-export.svg?style=flat)](https://david-dm.org/d3plus/d3plus-export) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/)
 
 Export methods for transforming and downloading SVG.
 
 ## Installing
 
-If you use NPM, run `npm install d3plus-export --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-export/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
+If you use NPM, `npm install d3plus-export`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-export/releases/latest). You can also load d3plus-export as a standalone library or as part of [D3plus](https://github.com/d3plus/d3plus). ES modules, AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3plus` global is exported:
 
 ```html
-<script src="https://d3plus.org/js/d3plus-export.v0.3.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3plus-export@1"></script>
+<script>
+  console.log(d3plus);
+</script>
 ```
 
 
@@ -90,4 +93,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Tue, 07 Jul 2020 16:10:15 GMT</sub>
+###### <sub>Documentation generated on Tue, 02 Feb 2021 14:57:33 GMT</sub>
