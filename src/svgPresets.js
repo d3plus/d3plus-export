@@ -20,4 +20,10 @@ export default function(selection) {
   // "aria-label" properties interfere with text labels ¯\_(ツ)_/¯
   selection.attr("aria-label", null);
 
+  // sets NaN positions to zero
+  const x = selection.attr("x");
+  if (x === "NaN") selection.attr("x", "0px");
+  const y = selection.attr("y");
+  if (y === "NaN") selection.attr("y", "0px");
+
 }
