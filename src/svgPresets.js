@@ -5,6 +5,8 @@
 */
 export default function(selection) {
 
+  if (!selection || !selection.size()) return;
+
   // sets "stroke-width" attribute to `0` if not defined
   const strokeWidth = selection.attr("stroke-width");
   selection.attr("stroke-width", !strokeWidth ? 0 : strokeWidth);
@@ -25,5 +27,11 @@ export default function(selection) {
   if (x === "NaN") selection.attr("x", "0px");
   const y = selection.attr("y");
   if (y === "NaN") selection.attr("y", "0px");
+
+  // fixed relative URLs for SVG downloads
+  const url = selection.attr("xlink:href");
+  if (url && typeof window !== "undefined" && url.charAt(0) === "/") {
+    selection.attr("xlink:href", `${window.location.origin}${url}`);
+  }
 
 }

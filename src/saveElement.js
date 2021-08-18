@@ -1,8 +1,10 @@
 import "canvas-toBlob";
+import {select} from "d3-selection";
 import {saveAs} from "file-saver";
 // import JsPDF from "jspdf";
 
 import dom2canvas from "./dom2canvas";
+import svgPresets from "./svgPresets";
 
 const defaultOptions = {
   filename: "download",
@@ -26,58 +28,66 @@ export default function(elem, options = {}, renderOptions = {}) {
   const IE = new RegExp(/(MSIE|Trident\/|Edge\/)/i).test(navigator.userAgent);
 
   if (!(elem instanceof Array) && options.type === "svg") {
-    const outer = IE ? new XMLSerializer().serializeToString(elem) : elem.outerHTML;
+    const clone = elem.cloneNode(true);
+    select(clone).call(svgPresets);
+    select(clone).selectAll("*").each(function() {
+      select(this).call(svgPresets);
+    });
+    const outer = IE ? new XMLSerializer().serializeToString(clone) : clone.outerHTML;
     saveAs(new Blob([outer], {type: "application/svg+xml"}), `${options.filename}.svg`);
   }
+  else {
 
-  dom2canvas(elem, Object.assign({}, renderOptions, {callback: canvas => {
+    dom2canvas(elem, Object.assign({}, renderOptions, {callback: canvas => {
 
-    if (renderOptions.callback) renderOptions.callback(canvas);
+      if (renderOptions.callback) renderOptions.callback(canvas);
 
-    if (["jpg", "png"].includes(options.type)) {
-      canvas.toBlob(blob => saveAs(blob, `${options.filename}.${options.type}`));
-    }
-    // else if (options.type === "pdf") {
+      if (["jpg", "png"].includes(options.type)) {
+        canvas.toBlob(blob => saveAs(blob, `${options.filename}.${options.type}`));
+      }
+      // else if (options.type === "pdf") {
 
-    //   const outputHeight = 11,
-    //         outputWidth = 8.5;
+      //   const outputHeight = 11,
+      //         outputWidth = 8.5;
 
-    //   const aspect = canvas.width / canvas.height,
-    //         orientation = aspect > 1 ? "landscape" : "portrait";
+      //   const aspect = canvas.width / canvas.height,
+      //         orientation = aspect > 1 ? "landscape" : "portrait";
 
-    //   const pdf = new JsPDF({
-    //     orientation,
-    //     unit: "in",
-    //     format: [outputWidth, outputHeight]
-    //   });
+      //   const pdf = new JsPDF({
+      //     orientation,
+      //     unit: "in",
+      //     format: [outputWidth, outputHeight]
+      //   });
 
-    //   let h = orientation === "landscape" ? outputWidth : outputHeight,
-    //       left,
-    //       top,
-    //       w = orientation === "landscape" ? outputHeight : outputWidth;
+      //   let h = orientation === "landscape" ? outputWidth : outputHeight,
+      //       left,
+      //       top,
+      //       w = orientation === "landscape" ? outputHeight : outputWidth;
 
-    //   const margin = 0.5;
+      //   const margin = 0.5;
 
-    //   if (aspect < w / h) {
-    //     h -= margin * 2;
-    //     const tempWidth = h * aspect;
-    //     top = margin;
-    //     left = (w - tempWidth) / 2;
-    //     w = tempWidth;
-    //   }
-    //   else {
-    //     w -= margin * 2;
-    //     const tempHeight = w / aspect;
-    //     left = margin;
-    //     top = (h - tempHeight) / 2;
-    //     h = tempHeight;
-    //   }
+      //   if (aspect < w / h) {
+      //     h -= margin * 2;
+      //     const tempWidth = h * aspect;
+      //     top = margin;
+      //     left = (w - tempWidth) / 2;
+      //     w = tempWidth;
+      //   }
+      //   else {
+      //     w -= margin * 2;
+      //     const tempHeight = w / aspect;
+      //     left = margin;
+      //     top = (h - tempHeight) / 2;
+      //     h = tempHeight;
+      //   }
 
-    //   pdf.addImage(canvas, "canvas", left, top, w, h);
-    //   pdf.save(options.filename);
+      //   pdf.addImage(canvas, "canvas", left, top, w, h);
+      //   pdf.save(options.filename);
 
-    // }
+      // }
 
-  }}));
+    }}));
+
+  }
 
 }
