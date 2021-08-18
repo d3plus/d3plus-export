@@ -14,6 +14,10 @@ export default function(selection) {
   // if there is no stroke, set the stroke color to "transparent" (fixes weird text rendering)
   if (!strokeWidth) selection.attr("stroke", "transparent");
 
+  // sets "fill" attribute to black if not defined
+  const fill = selection.attr("fill");
+  if (!fill && selection.node().tagName === "text") selection.attr("fill", "#000");
+
   // sets "fill-opacity" attribute to `0` if fill is "transparent" or "none"
   const transparent = ["none", "transparent"].includes(selection.attr("fill"));
   const fillOpacity = selection.attr("fill-opacity");
