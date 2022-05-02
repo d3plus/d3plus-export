@@ -15,7 +15,6 @@ If you use NPM, `npm install d3plus-export`. Otherwise, download the [latest rel
 </script>
 ```
 
-
 ## API Reference
 
 ##### 
@@ -76,6 +75,7 @@ This is a global function.
 | [options] | <code>Object</code> |  | Additional options to specify. |
 | [options.filename] | <code>String</code> | <code>&quot;download&quot;</code> | Filename for the downloaded file, without the extension. |
 | [options.type] | <code>String</code> | <code>&quot;png&quot;</code> | File type of the saved document. Accepted values are `"png"` and `"jpg"`. |
+| [options.callback] | <code>function</code> |  | Function to be invoked after saving is complete. |
 | [renderOptions] | <code>Object</code> |  | Custom options to be passed to the dom2canvas function. |
 
 
@@ -93,4 +93,4 @@ This is a global function.
 
 
 
-###### <sub>Documentation generated on Wed, 18 Aug 2021 18:30:17 GMT</sub>
+###### <sub>Documentation generated on Mon, 02 May 2022 19:58:32 GMT</sub>
