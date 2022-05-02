@@ -18,6 +18,7 @@ const defaultOptions = {
     @param {Object} [options] Additional options to specify.
     @param {String} [options.filename = "download"] Filename for the downloaded file, without the extension.
     @param {String} [options.type = "png"] File type of the saved document. Accepted values are `"png"` and `"jpg"`.
+    @param {Function} [options.callback] Function to be invoked after saving is complete.
     @param {Object} [renderOptions] Custom options to be passed to the dom2canvas function.
 */
 export default function(elem, options = {}, renderOptions = {}) {
@@ -35,12 +36,13 @@ export default function(elem, options = {}, renderOptions = {}) {
     });
     const outer = IE ? new XMLSerializer().serializeToString(clone) : clone.outerHTML;
     saveAs(new Blob([outer], {type: "application/svg+xml"}), `${options.filename}.svg`);
+
+    if (options.callback) options.callback();
+
   }
   else {
 
     dom2canvas(elem, Object.assign({}, renderOptions, {callback: canvas => {
-
-      if (renderOptions.callback) renderOptions.callback(canvas);
 
       if (["jpg", "png"].includes(options.type)) {
         canvas.toBlob(blob => saveAs(blob, `${options.filename}.${options.type}`));
@@ -85,6 +87,8 @@ export default function(elem, options = {}, renderOptions = {}) {
       //   pdf.save(options.filename);
 
       // }
+
+      if (options.callback) options.callback();
 
     }}));
 
