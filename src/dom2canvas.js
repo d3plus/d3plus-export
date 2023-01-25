@@ -1,9 +1,9 @@
 import html2canvas from "html2canvas";
-import canvg from "canvg-browser";
+import {Canvg} from "canvg";
 import {select, selectAll} from "d3-selection";
 
-import svgPresets from "./svgPresets";
-import htmlPresets from "./htmlPresets";
+import svgPresets from "./svgPresets.js";
+import htmlPresets from "./htmlPresets.js";
 
 const defaultOptions = {
   background: false,
@@ -271,6 +271,10 @@ export default function(elem, options) {
       });
 
     }
+    else if (tag === "svg") {
+      const elem = this.cloneNode(true);
+      layers.push(Object.assign({}, transform, {type: "svg", value: elem, tag}));
+    }
     else if (tag !== "svg" && this.childNodes.length > 0 && !select(this).selectAll("image, img, svg").size()) {
 
       const elem = this.cloneNode(true);
@@ -412,7 +416,7 @@ export default function(elem, options) {
           context.restore();
           break;
 
-        case "text":
+        case "text": {
 
           const parent = select(layer.style);
           const title = layer.value
@@ -430,21 +434,40 @@ export default function(elem, options) {
 
           context.save();
           context.translate(options.padding, options.padding);
-          canvg(canvas, text, Object.assign({}, canvgOptions, {offsetX: layer.x, offsetY: layer.y}));
+          Canvg.fromString(
+            context,
+            text,
+            Object.assign({}, canvgOptions, {
+              offsetX: layer.x,
+              offsetY: layer.y
+            })
+          );
           context.restore();
 
           break;
 
-        case "svg":
+        }
+        case "svg": {
+
           const outer = IE ? new XMLSerializer().serializeToString(layer.value) : layer.value.outerHTML;
           context.save();
           context.translate(options.padding + clip.x + layer.x, options.padding + clip.y + layer.y);
           context.rect(0, 0, clip.width, clip.height);
           context.clip();
-          canvg(canvas, outer, Object.assign({}, canvgOptions, {offsetX: layer.x + clip.x, offsetY: layer.y + clip.y}));
+          console.log(layer);
+          const v = Canvg.fromString(
+            context,
+            outer,
+            Object.assign({}, canvgOptions, {
+              offsetX: layer.x + clip.x,
+              offsetY: layer.y + clip.y
+            })
+          );
+          v.start();
           context.restore();
           break;
 
+        }
         default:
           console.warn("uncaught", layer);
           break;

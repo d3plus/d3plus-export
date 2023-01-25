@@ -3,8 +3,8 @@ import {select} from "d3-selection";
 import {saveAs} from "file-saver";
 // import JsPDF from "jspdf";
 
-import dom2canvas from "./dom2canvas";
-import svgPresets from "./svgPresets";
+import dom2canvas from "./dom2canvas.js";
+import svgPresets from "./svgPresets.js";
 
 const defaultOptions = {
   filename: "download",
